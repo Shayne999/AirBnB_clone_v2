@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""This is the base model class for AirBnB"""
+"""This module defines a base class for all models in our hbnb clone"""
+
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
 import models
@@ -11,15 +12,13 @@ Base = declarative_base()
 
 
 class BaseModel:
-    """This class will defines all common attributes/methods
-    for other classes
-    """
+    """A base class for all hbnb models"""
     id = Column(String(60), unique=True, nullable=False, primary_key=True)
     created_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
     updated_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
 
     def __init__(self, *args, **kwargs):
-        """Instantiation of base model class
+        """Instantiates a new model
         Args:
             args: it won't be used
             kwargs: arguments for the constructor of the BaseModel
@@ -45,7 +44,7 @@ class BaseModel:
             self.created_at = self.updated_at = datetime.now()
 
     def __str__(self):
-        """returns a string
+        """returns a string representation of the instance
         Return:
             returns a string of class name, id, and dictionary
         """
@@ -58,14 +57,14 @@ class BaseModel:
         return self.__str__()
 
     def save(self):
-        """updates the public instance attribute updated_at to current
+        """Updates updated_at with current time when instance is changed
         """
         self.updated_at = datetime.now()
         models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
-        """creates dictionary of the class  and returns
+        """Convert instance into dict format
         Return:
             returns a dictionary of all the key values in __dict__
         """
